@@ -227,6 +227,7 @@ class Service
             [
                 "baslangic" => $start_date,
                 "bitis" => $end_date,
+                "hangiTip" => "5000/30000",
                 "table" => []
             ]
         );
