@@ -1,0 +1,22 @@
+{
+    "name": "ethemkizil/e-arsiv-fatura",
+    "description": "e arşiv fatura",
+    "type": "library",
+    "require": {
+        "ramsey/uuid": "4.x-dev",
+        "kwn/number-to-words": "dev-master"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Ethemkizil\\EArsivFatura\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ethem",
+            "email": "ethemkizil@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
