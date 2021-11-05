@@ -17,6 +17,8 @@ class Service
         "service_type"  => "test",
     ];
 
+    public $error = false;
+
     protected $curl_http_headers = [
         "accept: */*",
         "accept-language: tr,en-US;q=0.9,en;q=0.8",
@@ -85,6 +87,11 @@ class Service
         return mb_strtoupper($currency_transformer->toWords($amount, $this->config['currency']), 'utf-8');
     }
 
+    public function isError()
+    {
+        return $this->error;
+    }
+
     public function getToken()
     {
         if (isset($this->config['token']) && !empty($this->config['token'])) {
@@ -110,7 +117,16 @@ class Service
         curl_close($ch);
 
         $this->setConfig("token", $response['token']);
-        return $response['token'];
+
+        if (isset($result["error"])) {
+            $this->error = true;
+            $result = $response;
+        }else{
+            $this->error = false;
+            $result = $response['token'];
+        }
+
+        return $result;
     }
 
     public function runCommand($command, $page_name, $data = null, $url_encode = false)
@@ -131,7 +147,14 @@ class Service
         $server_response = curl_exec($ch);
         curl_close($ch);
 
-        return json_decode($server_response, true);
+        $result = json_decode($server_response, true);
+
+        if (isset($result["error"])) {
+            $this->error = true;
+        }else{
+            $this->error = false;
+        }
+        return $result;
     }
 
     public function createDraftInvoice($invoice_details = [])
@@ -451,4 +474,5 @@ class Service
 
         return $user['data'];
     }
+
 }
