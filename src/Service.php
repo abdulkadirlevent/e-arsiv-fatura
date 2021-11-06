@@ -116,12 +116,12 @@ class Service
         $response = json_decode($server_response, true);
         curl_close($ch);
 
-        $this->setConfig("token", $response['token']);
 
-        if (isset($result["error"])) {
+        if (isset($response["error"])) {
             $this->error = true;
             $result = $response;
         }else{
+            $this->setConfig("token", $response['token']);
             $this->error = false;
             $result = $response['token'];
         }
