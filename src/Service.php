@@ -209,7 +209,8 @@ class Service
             "fisSaati" => " ",
             "fisTipi" => " ",
             "zRaporNo" => "",
-            "okcSeriNo" => ""
+            "okcSeriNo" => "",
+            "hangiTip" => "5000/30000",
         ];
 
         foreach ($invoice_details['items'] as $item) {
@@ -265,7 +266,7 @@ class Service
             [
                 "baslangic" => $draft_invoice['date'],
                 "bitis" => $draft_invoice['date'],
-                "table" => []
+                "hangiTip" => "5000/30000",
             ]
         );
 
