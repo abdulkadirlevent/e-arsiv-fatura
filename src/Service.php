@@ -307,7 +307,7 @@ class Service
     {
         $sign_status = urlencode($signed ? "Onaylandı" : "Onaylanmadı");
 
-        return "{$this->config['base_url']}/earsiv-services/download?token={$this->config['token']}&ettn={$invoiceUUID}&belgeTip=FATURA&onayDurumu={$sign_status}&cmd=downloadResource";
+        return "{$this->config['base_url']}/earsiv-services/download?token={$this->config['token']}&ettn={$invoiceUUID}&belgeTip=FATURA&onayDurumu={$sign_status}&cmd=EARSIV_PORTAL_BELGE_INDIR";
     }
 
     public function createInvoice($invoice_details, $sign = true)
