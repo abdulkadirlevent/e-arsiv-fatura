@@ -223,7 +223,6 @@ class Service
                 "iskontoTutari"=> "0",
                 "malHizmetTutari" => (string) round(($item['quantity'] * $item['unitPrice']), 2),
                 "kdvOrani" => (string) round($item['VATRate'], 0),
-                "vergiOrani" => 0,
                 "kdvTutari" => (string) round($item['VATAmount'], 2),
                 "ozelMatrahTutari"=> "0",
                 "vergininKdvTutari"=> "0",
@@ -236,11 +235,15 @@ class Service
             self::COMMANDS['create_draft_invoice'][1],
             $invoice_data
         );
+        if ($this->isError()){
+            return $invoice;
+        }else{
+            return array_merge([
+                "date" => $invoice_data['faturaTarihi'],
+                "uuid" => $invoice_data['faturaUuid'],
+            ], $invoice);
+        }
 
-        return array_merge([
-            "date" => $invoice_data['faturaTarihi'],
-            "uuid" => $invoice_data['faturaUuid'],
-        ], $invoice);
     }
 
     public function getAllInvoicesByDateRange($start_date, $end_date)
