@@ -334,7 +334,7 @@ class Service
 
     public function createInvoiceAndGetDownloadURL($args)
     {
-        $invoice = $this->createInvoice($args['invoice_details'], $args['sign'] ?? true);
+        $invoice = $this->createInvoice($args['invoice_details'], false);
         return $this->getDownloadURL($invoice['uuid'], $invoice['signed']);
     }
 
