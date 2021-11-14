@@ -3,8 +3,7 @@
     "description": "e arşiv fatura",
     "type": "library",
     "require": {
-        "ramsey/uuid": "4.2.3",
-        "kwn/number-to-words": "dev-master"
+        "ramsey/uuid": "4.2.3"
     },
     "license": "MIT",
     "autoload": {

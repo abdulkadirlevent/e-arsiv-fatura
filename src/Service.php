@@ -2,11 +2,24 @@
 
 namespace Ethemkizil\EArsivFatura;
 use Ethemkizil\EArsivFatura\Exceptions\UnexpectedValueException;
-use NumberToWords\NumberToWords;
 use Ramsey\Uuid\Uuid;
 
 class Service
 {
+
+    /**
+     * Api Urls
+     */
+    const BASE_URL = "https://earsivportal.efatura.gov.tr";
+    const TEST_URL = "https://earsivportaltest.efatura.gov.tr";
+
+    /**
+     * Api Paths
+     */
+    const DISPATCH_PATH = "/earsiv-services/dispatch";
+    const TOKEN_PATH = "/earsiv-services/assos-login";
+    const REFERRER_PATH = "/intragiris.html";
+
     private $config = [
         "base_url"      => "https://earsivportaltest.efatura.gov.tr",
         "language"      => "tr",
@@ -81,10 +94,7 @@ class Service
 
     public function currencyTransformerToWords($amount)
     {
-        $amount = (string) str_replace(".", "", $amount);
-        $number_to_words = new NumberToWords();
-        $currency_transformer = $number_to_words->getCurrencyTransformer($this->config['language']);
-        return mb_strtoupper($currency_transformer->toWords($amount, $this->config['currency']), 'utf-8');
+        return "";
     }
 
     public function isError()
@@ -479,4 +489,24 @@ class Service
         return $user['data'];
     }
 
+
+    public function logOutFromAPI()
+    {
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "{$this->config['base_url']}".self::TOKEN_PATH);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $this->curl_http_headers);
+        curl_setopt($ch, CURLOPT_REFERER, "{$this->config['base_url']}/index.jsp?token=".$this->config['token']);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
+            "assoscmd" => "logout",
+            "rtype" => "json",
+            "token" => $this->config['token']
+        ]));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $server_response = curl_exec($ch);
+        curl_close($ch);
+
+        return true;
+    }
 }
