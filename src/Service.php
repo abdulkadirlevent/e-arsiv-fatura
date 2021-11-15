@@ -422,7 +422,6 @@ class Service
 
     public function verifySignSMSCode($sms_code, $operation_id, $invoices)
     {
-
         $data = [
             "SIFRE" => $sms_code,
             "OID" => $operation_id,
@@ -430,13 +429,13 @@ class Service
             'DATA' => $invoices,
         ];
 
-        $sms = $this->runCommand(
+        $result = $this->runCommand(
             self::COMMANDS['verify_sms_code'][0],
             self::COMMANDS['verify_sms_code'][1],
             $data
         );
 
-        return $sms['oid'];
+        return $result;
     }
 
     public function getUserData()
