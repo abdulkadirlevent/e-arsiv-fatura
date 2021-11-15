@@ -256,7 +256,7 @@ class Service
 
     }
 
-    private function getPhoneNumber()
+    public function getPhoneNumber()
     {
         $result = $this->runCommand(
             "EARSIV_PORTAL_TELEFONNO_SORGULA",
