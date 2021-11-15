@@ -206,7 +206,7 @@ class Service
             "vergilerToplami" => (string) round($invoice_details['totalVAT'], 2),
             "vergilerDahilToplamTutar" => (string) round($invoice_details['grandTotalInclVAT'], 2),
             "odenecekTutar" => (string) round($invoice_details['paymentTotal'], 2),
-            "not" => $this->currencyTransformerToWords($invoice_details['paymentTotal']),
+            "not" => $invoice_details['not'],
             "siparisNumarasi" => $invoice_details['siparisNumarasi'],
             "siparisTarihi" => $invoice_details['siparisTarihi'],
             "irsaliyeNumarasi" => $invoice_details['irsaliyeNumarasi'],
