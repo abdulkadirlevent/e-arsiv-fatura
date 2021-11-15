@@ -417,7 +417,7 @@ class Service
             ]
         );
 
-        return $sms['oid'];
+        return $sms["data"]['oid'];
     }
 
     public function verifySignSMSCode($sms_code, $operation_id, $invoices)
