@@ -51,7 +51,7 @@ class Service
         "cancel_draft_invoice"                  => ["EARSIV_PORTAL_FATURA_SIL", "RG_BASITTASLAKLAR"],
         "get_recipient_data_by_tax_id_or_tr_id" => ["SICIL_VEYA_MERNISTEN_BILGILERI_GETIR", "RG_BASITFATURA"],
         "send_sign_sms_code"                    => ["EARSIV_PORTAL_SMSSIFRE_GONDER", "RG_SMSONAY"],
-        "verify_sms_code"                       => ["EARSIV_PORTAL_SMSSIFRE_DOGRULA", "RG_SMSONAY"],
+        "verify_sms_code"                       => ["0lhozfib5410mp", "RG_SMSONAY"],
         "get_user_data"                         => ["EARSIV_PORTAL_KULLANICI_BILGILERI_GETIR", "RG_KULLANICI"],
         "update_user_data"                      => ["EARSIV_PORTAL_KULLANICI_BILGILERI_KAYDET", "RG_KULLANICI"]
     ];
@@ -256,6 +256,30 @@ class Service
 
     }
 
+    private function getPhoneNumber()
+    {
+        $result = $this->runCommand(
+            "EARSIV_PORTAL_TELEFONNO_SORGULA",
+            "RG_BASITTASLAKLAR",
+            []
+        );
+        return $result["data"]["telefon"];
+    }
+
+    public function getInvoiceFromAPI($ettn)
+    {
+        $data = [
+            "ettn" => $ettn
+        ];
+
+        $result = $this->runCommand(
+            "EARSIV_PORTAL_FATURA_GETIR",
+            "RG_BASITFATURA",
+            $data
+        );
+        return $result["data"];
+    }
+
     public function getAllInvoicesByDateRange($start_date, $end_date)
     {
         $invoices = $this->runCommand(
@@ -396,15 +420,20 @@ class Service
         return $sms['oid'];
     }
 
-    public function verifySignSMSCode($sms_code, $operation_id)
+    public function verifySignSMSCode($sms_code, $operation_id, $invoices)
     {
+
+        $data = [
+            "SIFRE" => $sms_code,
+            "OID" => $operation_id,
+            'OPR' => 1,
+            'DATA' => $invoices,
+        ];
+
         $sms = $this->runCommand(
             self::COMMANDS['verify_sms_code'][0],
             self::COMMANDS['verify_sms_code'][1],
-            [
-                "SIFRE" => $sms_code,
-                "OID" => $operation_id
-            ]
+            $data
         );
 
         return $sms['oid'];
