@@ -141,18 +141,24 @@ class Service
 
     public function runCommand($command, $page_name, $data = null, $url_encode = false)
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "{$this->config['base_url']}/earsiv-services/dispatch");
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $this->curl_http_headers);
-        curl_setopt($ch, CURLOPT_REFERER, "{$this->config['base_url']}/login.jsp");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
+        $query = [
             "callid" => $this->getUuid(),
             "token" => $this->config['token'],
             "cmd" => $command,
             "pageName" => $page_name,
             "jp" => $url_encode ? urlencode(json_encode($data)) : json_encode($data),
-        ]));
+        ];
+
+        if(is_null($data)){
+            $query["jp"] = "{}";
+        }
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "{$this->config['base_url']}/earsiv-services/dispatch");
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $this->curl_http_headers);
+        curl_setopt($ch, CURLOPT_REFERER, "{$this->config['base_url']}/login.jsp");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($query));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_response = curl_exec($ch);
         curl_close($ch);
