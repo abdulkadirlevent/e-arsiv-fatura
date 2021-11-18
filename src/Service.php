@@ -267,7 +267,7 @@ class Service
         $result = $this->runCommand(
             "EARSIV_PORTAL_TELEFONNO_SORGULA",
             "RG_BASITTASLAKLAR",
-            []
+            null
         );
         return $result["data"]["telefon"];
     }
