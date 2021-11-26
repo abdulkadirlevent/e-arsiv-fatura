@@ -432,7 +432,7 @@ class Service
             "SIFRE" => $sms_code,
             "OID" => $operation_id,
             'OPR' => 1,
-            'DATA' => $invoices,
+            'DATA' => array($invoices)
         ];
 
         $result = $this->runCommand(
