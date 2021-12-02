@@ -30,6 +30,8 @@ class Service
         "service_type"  => "test",
     ];
 
+    public $response = [];
+
     public $error = false;
 
     protected $curl_http_headers = [
@@ -102,6 +104,10 @@ class Service
         return $this->error;
     }
 
+    public function getResponse(){
+        return $this->response;
+    }
+
     public function getToken()
     {
         if (isset($this->config['token']) && !empty($this->config['token'])) {
@@ -126,6 +132,7 @@ class Service
         $response = json_decode($server_response, true);
         curl_close($ch);
 
+        $this->response = $response;
 
         if (isset($response["error"])) {
             $this->error = true;
@@ -164,6 +171,8 @@ class Service
         curl_close($ch);
 
         $result = json_decode($server_response, true);
+
+        $this->response = $result;
 
         if (isset($result["error"])) {
             $this->error = true;
