@@ -212,7 +212,7 @@ class Service
             "websitesi" => $invoice_details['websitesi'],
             "iadeTable" => $invoice_details['iadeTable'],
             "vergiCesidi" => $invoice_details['vergiCesidi'],
-            "malHizmetTable" => $invoice_details['malHizmetTable'],
+            //"malHizmetTable" => $invoice_details['malHizmetTable'],
             "tip" => $invoice_details['tip'],
             "toplamIskonto" => $invoice_details['toplamIskonto'],
             "matrah" => (string) round($invoice_details['grandTotal'], 2),
